@@ -114,7 +114,6 @@ class Slayer(Entity):
       self.animate(screen)
       self.faceDirection()
       self.drawHealthBars(screen, 50)
-      self.move()
       self.jump()
     else:
       self.deathAnimation(screen)

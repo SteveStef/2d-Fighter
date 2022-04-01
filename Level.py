@@ -45,7 +45,7 @@ class Level:
     self.bullet_entity_collision(screen, player, entityList)
     self.tile_collision_x(player)
     self.tile_collision_y(player)
-  
+    
   def handle_pet(self, screen, player, pets):
     for pet in pets:
       pet.world_shift(self.world_scroll)
@@ -61,7 +61,7 @@ class Level:
           # dmg to entity
           entity.damage(player.dmg)
           bullet.impacting = True
-          if bullet.dead: 
+          if bullet.dead:
             player.bullets.remove(bullet)
           break
 
@@ -74,6 +74,7 @@ class Level:
           break
 
   def tile_collision_x(self, entity): # entity hitting tiles on x
+     entity.move()
      for tile in self.tiles:
         if entity.rect.colliderect(tile.rect):
            entity.hitWall = True
@@ -99,11 +100,13 @@ class Level:
     direction_x = player.direction.x
     # window scrolling logic
     if player_x < WIDTH/4 and direction_x < 0: # moving to left
-      self.world_scroll = 8
+      self.world_scroll = player.maxVel
+      if player.dash: self.world_scroll = 12
       player.vel = 0
     elif player_x > WIDTH - (WIDTH/4) and direction_x > 0: # moving right
-      self.world_scroll = -8
+      self.world_scroll = -player.maxVel
+      if player.dash: self.world_scroll = -12
       player.vel = 0
     else:
       self.world_scroll = 0
-      player.vel = 8
+      player.vel = player.maxVel

@@ -29,10 +29,12 @@ for i in range(len(data)):
       break
 
 level = Level(data)
-p1 = Cowboy(500, 500, 32, 50, 10, 25, 25, 0.5)
-pets = [FireSpirit(300, 400, 32, 32, 8, 25, 25, 5, "Fire Spirit", { "Idle": 6, "Move": 8 })]
+p1 = Cowboy(500, 500, 32, 50, 8, 500, 500, 0.5)
+pets = [FireSpirit(300, 400, 28, 28, 8, 25, 25, 5, "Fire Spirit", { "Idle": 6, "Move": 8 })]
 entityList = [
-  Slayer(randint(1000,2000), 500, 75, 100, 1, 25, 25, 0.5),
+  Slayer(randint(1000,2000), 500, 75, 100, 4, 25, 25, 0.5),
+  Slayer(randint(1000,2000), 500, 75, 100, 4, 25, 25, 0.5),
+  Slayer(randint(1000,2000), 500, 75, 100, 4, 25, 25, 0.5),
 ]
 
 portal = Portal(800, 450, -1)
@@ -47,6 +49,7 @@ while running:
     if event.type == pygame.QUIT:
         pygame.quit()
         exit()
+    if event.type == pygame.KEYDOWN and event.key == pygame.K_LSHIFT: p1.dash = True
   screen.fill("black")
 
   screen.blit(SKY,(0,0))

@@ -26,15 +26,15 @@ class Cowboy(Player):
       "Move": (-65, -15),
       "Shoot": (-60, -15),
       "Whip": (-60, -30),
-      "Roll": (-60, 0)
+      "Roll": (-60, -15)
     }
 
     self.frameRates = {
       "Idle": 0.2,
       "Move": 0.3,
-      "Shoot": 0.3,
+      "Shoot": 0.9,
       "Whip":  0.4,
-      "Roll": 0.6,
+      "Roll": 0.4,
     }
 
 
@@ -70,7 +70,7 @@ class Cowboy(Player):
     else: return offX
       
   def getStatus(self):
-    if self.dash: self.status = "Roll"
+    if self.dash: self.status = "Move"
     elif self.direction.x != 0: self.status = "Move"
     elif self.isAttacking: self.status = "Shoot"
     elif self.attacking2: self.status = "Whip"
@@ -80,11 +80,12 @@ class Cowboy(Player):
   def attack(self, screen, entityList):
     for entity in entityList:
       if abs(self.rect.centerx - entity.rect.centerx) < 150:
-        if abs(self.rect.y - entity.rect.y) <70:
+        if abs(self.rect.y - entity.rect.y) < 70:
           if self.facing != entity.facing and self.attacking2 and self.status == "Whip" and self.frame >= 2 and self.frame < 2.5:
             self.slash.updatePos(entity.rect.centerx, entity.rect.centery)
-            entity.damage(self.dmg*2)
+            entity.damage(self.dmg*4)
             # enemy knockback
+            entity.knockback(1.5, self.facing)
             self.slash.active = True
             self.mana += 1
             if self.mana >= self.fullMana: self.mana = self.fullMana
@@ -95,7 +96,6 @@ class Cowboy(Player):
     self.keyboardInput()
     self.animate(screen)
     self.slash.animate(screen)
-    self.move()
     self.drawBullets(screen)
     self.drawHealthBars(screen,50)
     self.drawManaBars(screen,50)

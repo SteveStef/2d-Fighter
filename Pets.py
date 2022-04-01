@@ -10,8 +10,8 @@ class FireSpirit(Slayer):
     self.frameRate = 0.4
     self.vel = vel
     self.images = {
-      "Idle": getAnimation(f"Characters/Pets/{typ}/Idle", frames["Idle"], 2.5),
-      "Move": getAnimation(f"Characters/Pets/{typ}/Move", frames["Move"], 2.5)
+      "Idle": getAnimation(f"Characters/Pets/{typ}/Idle", frames["Idle"], 2.25),
+      "Move": getAnimation(f"Characters/Pets/{typ}/Move", frames["Move"], 2.25)
     }
 
   def animate(self, screen, player):
@@ -19,7 +19,7 @@ class FireSpirit(Slayer):
     if self.frame >= len(self.images[self.status]): self.frame = 0
     img = self.images[self.status][int(self.frame)]
     if self.facing == -1: img = pygame.transform.flip(img, True, False)
-    screen.blit(img, (self.rect.x-20, self.rect.y-12))
+    screen.blit(img, (self.rect.x-20, self.rect.y-10))
     self.frame += self.frameRate
 
   def getStatus(self, player):
@@ -33,6 +33,5 @@ class FireSpirit(Slayer):
   def update(self, screen, player):
     self.animate(screen, player)
     self.faceDirection()
-    self.move()
     self.jump()
 

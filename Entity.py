@@ -6,6 +6,7 @@ class Entity:
     self.direction = pygame.math.Vector2(0,0) # x, y
     self.gravity = 1.9
     self.vel = vel
+    self.maxVel = vel
     self.facing = -1
     self.hitWall = False
     self.jCount = 0
@@ -15,9 +16,20 @@ class Entity:
     self.fullMana = mana
     self.dmg = damage
     self.isDead = False
-    
+    self.knockCount = 10
+    self.isKnocked = False
+
   def drawHitbox(self, screen):
     pygame.draw.rect(screen, "red", self.rect, 1)
+
+  def knockback(self, knock, d):
+    if self.knockCount > 0:
+      self.knockCount -= 1
+      pos = self.rect.x + knock * self.knockCount * d
+      if pos > 0 and pos < 3000: self.rect.x += knock * self.knockCount * d
+    else:
+      self.knockCount = 10
+      self.isKnocked = False
 
   def applyGravity(self):
     self.direction.y += self.gravity
